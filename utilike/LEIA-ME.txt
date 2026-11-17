@@ -1,0 +1,40 @@
+UTILIKE – VITRINE + ADMINISTRAÇÃO
+==================================
+
+COMO TESTAR NO SEU COMPUTADOR (precisa do Node.js instalado)
+1. Copie o arquivo ".env.example" e renomeie a cópia para ".env".
+2. Abra o ".env" e troque ADMIN_PASSWORD pela sua senha.
+   (Sem DATABASE_URL, o teste local salva num arquivo data.json.)
+3. Na pasta do projeto, abra o terminal e rode:
+      npm install
+      npm start
+4. Abra http://localhost:3000  (site)  e clique em "Administração".
+   ATENÇÃO: não abra o index.html com duplo clique; agora ele precisa do servidor.
+
+COMO COLOCAR NO AR (GitHub + Render + Neon)
+1. Suba esta pasta para um repositório no GitHub (o .gitignore já impede de subir o .env).
+2. No Neon: copie a "Connection string" do seu projeto.
+3. No Render: New > Web Service > escolha o repositório.
+      Build Command: npm install
+      Start Command: npm start
+   Em "Environment" crie as 3 variáveis:
+      ADMIN_PASSWORD  = sua senha
+      DATABASE_URL    = a connection string do Neon
+      SESSION_SECRET  = um texto longo e aleatório
+4. As tabelas são criadas sozinhas no Neon na primeira vez. Seus links e produtos
+   ficam no Neon, então não se perdem quando o Render reinicia.
+
+COMO USAR A ADMINISTRAÇÃO
+- Botão "Administração" (canto da capa) > digite a senha.
+- Links e perfil: foto, loja, Instagram, TikTok, YouTube, WhatsApp.
+- Produto: escolha RECOMENDO ou NÃO RECOMENDO e ele aparece na pasta certa.
+- Vídeo: aceita link do YouTube (inclusive Shorts) ou .mp4.
+- Backup: baixe uma cópia de vez em quando.
+
+IMAGENS (pasta public/imagens)
+- capa.png  = banner do topo da vitrine
+- logo.png  = logotipo "Uk" usado como foto de perfil (redondo)
+- Se enviar sua foto na administração, ela substitui o logotipo.
+
+OBSERVAÇÃO SOBRE O LIVE SERVER DO VS CODE
+- Ele mostra só o visual. Os links e produtos só aparecem com "npm start" (http://localhost:3000).

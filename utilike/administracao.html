@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Administração – Utilike</title>
+<style>
+:root{--bg1:#06143A;--bg2:#0B2A6F;--or:#FF7A00;--or2:#FFA21F;--ok:#16A34A;--no:#DC2626;--tx:#0B1B3F;--sf:#5A6785}
+*{box-sizing:border-box;margin:0;padding:0}[hidden]{display:none!important}
+body{font-family:"Segoe UI",system-ui,Arial,sans-serif;color:var(--tx);min-height:100vh;background:linear-gradient(180deg,var(--bg2),var(--bg1)) fixed;display:flex;justify-content:center;padding:16px}
+.wrap{width:100%;max-width:640px}
+h1{color:#fff;font-size:22px}h1 b{color:var(--or2)}
+.topo{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 6px 18px rgba(0,10,40,.35)}
+.card h2{font-size:17px;margin-bottom:10px;border-left:5px solid var(--or);padding-left:8px}
+label{display:block;font-size:13px;font-weight:700;margin:10px 0 4px}
+small{color:var(--sf);font-size:12px;display:block;margin-top:3px}
+input,select,textarea{width:100%;padding:11px 12px;border:2px solid #D5DDEE;border-radius:10px;font:inherit;font-size:15px;color:var(--tx);background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--or)}
+textarea{min-height:64px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:480px){.row{grid-template-columns:1fr}}
+button,.btn{border:0;border-radius:999px;padding:11px 18px;font:inherit;font-weight:800;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--or),var(--or2));margin-top:12px}
+button.sec{background:var(--bg2)}button.perigo{background:var(--no)}button.peq{padding:7px 12px;font-size:13px;margin:0}
+.prod{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid #E5EAF5}
+.prod img{width:56px;height:56px;border-radius:10px;object-fit:cover;background:var(--bg1)}
+.prod b{font-size:14px;display:block}.prod span{font-size:12px;font-weight:800;color:#fff;border-radius:999px;padding:2px 8px}
+.prod .ok{background:var(--ok)}.prod .no{background:var(--no)}
+.acoes{display:flex;gap:6px;flex-wrap:wrap}
+.msg{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--bg1);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;z-index:9;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.msg.erro{background:var(--no)}
+.foto{display:flex;align-items:center;gap:12px}.foto img{width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid var(--or);background:var(--bg1)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="login" class="card" style="margin-top:12vh">
+  <h2>Administração Utilike</h2>
+  <label for="senha">Senha</label>
+  <input id="senha" type="password" autocomplete="current-password" placeholder="Digite a senha">
+  <button id="entrar">Entrar</button>
+  <p style="margin-top:12px"><a href="index.html">← Voltar para a vitrine</a></p>
+</section>
+
+<div id="painel" hidden>
+  <div class="topo">
+    <h1>Painel <b>Utilike</b></h1>
+    <div class="acoes"><a class="btn peq sec" href="index.html" target="_blank" style="text-decoration:none;margin:0">Ver site</a><button class="peq perigo" id="sair">Sair</button></div>
+  </div>
+
+  <section class="card">
+    <h2>Links e perfil</h2>
+    <label>Foto de perfil</label>
+    <div class="foto"><img id="perfil-prev" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="><input id="perfil-arq" type="file" accept="image/*"></div>
+    <label for="c-nome">Nome da loja</label><input id="c-nome" placeholder="Utilike">
+    <label for="c-loja">Link da loja Utilike (botão "Acesse a Utilike")</label><input id="c-loja" type="url" placeholder="https://...">
+    <div class="row">
+      <div><label for="c-instagram">Link do Instagram</label><input id="c-instagram" type="url" placeholder="https://instagram.com/..."></div>
+      <div><label for="c-tiktok">Link do TikTok</label><input id="c-tiktok" type="url" placeholder="https://tiktok.com/@..."></div>
+      <div><label for="c-youtube">Link do YouTube</label><input id="c-youtube" type="url" placeholder="https://youtube.com/@..."></div>
+      <div><label for="c-whatsapp">WhatsApp</label><input id="c-whatsapp" placeholder="5511999999999 ou link"><small>Pode digitar só o número com DDD.</small></div>
+    </div>
+    <button id="salvar-config">Salvar links e perfil</button>
+  </section>
+
+  <section class="card">
+    <h2 id="form-titulo">Adicionar produto</h2>
+    <label for="p-nome">Nome do produto</label><input id="p-nome">
+    <div class="row">
+      <div><label for="p-cat">Categoria</label><select id="p-cat"><option value="recomendo">RECOMENDO (verde)</option><option value="nao-recomendo">NÃO RECOMENDO (vermelho)</option></select></div>
+      <div><label for="p-plat">Plataforma</label><input id="p-plat" placeholder="Shopee, Amazon, Mercado Livre"></div>
+    </div>
+    <label for="p-ver">Veredito (resumo do teste)</label><textarea id="p-ver"></textarea>
+    <label for="p-link">Link de afiliado</label><input id="p-link" type="url" placeholder="https://...">
+    <div class="row">
+      <div><label for="p-tipo">Tipo de mídia</label><select id="p-tipo"><option value="imagem">Foto</option><option value="video">Vídeo</option></select></div>
+      <div><label for="p-url">Link da foto ou do vídeo</label><input id="p-url" placeholder="YouTube, .mp4 ou imagem"></div>
+    </div>
+    <label for="p-thumb">Capa (miniatura)</label><input id="p-thumb" placeholder="Link da imagem de capa (opcional)">
+    <small>Ou envie do seu computador/celular:</small><input id="p-thumb-arq" type="file" accept="image/*">
+    <label for="p-tags">Tags (separadas por vírgula)</label><input id="p-tags" placeholder="fone, bluetooth, audio">
+    <div class="acoes"><button id="salvar-prod">Salvar produto</button><button class="sec" id="cancelar" hidden>Cancelar edição</button></div>
+  </section>
+
+  <section class="card">
+    <h2>Produtos cadastrados (<span id="total">0</span>)</h2>
+    <div id="lista"></div>
+  </section>
+
+  <section class="card">
+    <h2>Backup</h2>
+    <small>Baixe uma cópia dos seus links e produtos, ou restaure uma cópia anterior.</small>
+    <div class="acoes"><button class="sec" id="baixar">Baixar backup</button><button class="sec" id="restaurar">Restaurar backup</button></div>
+    <input id="backup-arq" type="file" accept="application/json" hidden>
+  </section>
+</div>
+</div>
+<div id="msg" class="msg" hidden></div>
+
+<script>
+const $ = (i) => document.getElementById(i);
+let token = sessionStorage.getItem("tk") || "";
+let dados = { config: {}, produtos: [] };
+let editandoId = null;
+const CAMPOS = ["nome", "loja", "instagram", "tiktok", "youtube", "whatsapp"];
+
+function aviso(t, erro) { const m = $("msg"); m.textContent = t; m.className = "msg" + (erro ? " erro" : ""); m.hidden = false; clearTimeout(aviso.t); aviso.t = setTimeout(() => (m.hidden = true), 3200); }
+const esc = (t) => String(t == null ? "" : t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function api(url, opc = {}) {
+  const r = await fetch(url, { ...opc, headers: { "Content-Type": "application/json", Authorization: "Bearer " + token, ...(opc.headers || {}) } });
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401 && url !== "/api/login") { sair(); throw new Error(j.erro || "Sessão expirada"); }
+  if (!r.ok) throw new Error(j.erro || "Erro no servidor");
+  return j;
+}
+
+async function entrar() {
+  try {
+    const j = await api("/api/login", { method: "POST", body: JSON.stringify({ senha: $("senha").value }) });
+    token = j.token; sessionStorage.setItem("tk", token); $("senha").value = ""; await abrirPainel();
+  } catch (e) { aviso(e.message, true); }
+}
+function sair() { token = ""; sessionStorage.removeItem("tk"); $("painel").hidden = true; $("login").hidden = false; }
+
+async function abrirPainel() {
+  const r = await fetch("/api/dados", { cache: "no-store" });
+  dados = await r.json();
+  dados.config = dados.config || {}; dados.produtos = dados.produtos || [];
+  CAMPOS.forEach((c) => ($("c-" + (c === "nome" ? "nome" : c)).value = dados.config[c === "nome" ? "nomeLoja" : c] || ""));
+  $("perfil-prev").src = dados.config.perfil || "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
+  $("login").hidden = true; $("painel").hidden = false; listar();
+}
+
+async function salvar(msg) {
+  try { await api("/api/dados", { method: "PUT", body: JSON.stringify(dados) }); aviso(msg || "Salvo no site!"); return true; }
+  catch (e) { aviso(e.message, true); return false; }
+}
+
+function reduzir(arquivo, max) {
+  return new Promise((ok, falha) => {
+    const fr = new FileReader();
+    fr.onerror = falha;
+    fr.onload = () => { const im = new Image(); im.onerror = falha; im.onload = () => {
+      const k = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement("canvas");
+      c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+      c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); ok(c.toDataURL("image/jpeg", 0.82));
+    }; im.src = fr.result; };
+    fr.readAsDataURL(arquivo);
+  });
+}
+
+$("perfil-arq").onchange = async (e) => { if (e.target.files[0]) { dados.config.perfil = await reduzir(e.target.files[0], 400); $("perfil-prev").src = dados.config.perfil; aviso("Foto carregada. Clique em Salvar links e perfil."); } };
+$("p-thumb-arq").onchange = async (e) => { if (e.target.files[0]) { $("p-thumb").value = await reduzir(e.target.files[0], 600); aviso("Capa carregada."); } };
+
+$("salvar-config").onclick = () => {
+  dados.config.nomeLoja = $("c-nome").value.trim() || "Utilike";
+  ["loja", "instagram", "tiktok", "youtube", "whatsapp"].forEach((c) => (dados.config[c] = $("c-" + c).value.trim()));
+  salvar("Links e perfil salvos!");
+};
+
+function limparForm() {
+  editandoId = null; ["nome", "plat", "ver", "link", "url", "thumb", "tags"].forEach((c) => ($("p-" + c).value = ""));
+  $("p-cat").value = "recomendo"; $("p-tipo").value = "imagem"; $("p-thumb-arq").value = "";
+  $("form-titulo").textContent = "Adicionar produto"; $("cancelar").hidden = true;
+}
+$("cancelar").onclick = limparForm;
+
+$("salvar-prod").onclick = async () => {
+  const nome = $("p-nome").value.trim();
+  if (!nome) return aviso("Digite o nome do produto.", true);
+  const p = {
+    id: editandoId || String(Date.now()), nome, categoria: $("p-cat").value, plataforma: $("p-plat").value.trim(),
+    veredito: $("p-ver").value.trim(), linkAfiliado: $("p-link").value.trim(), tipoMidia: $("p-tipo").value,
+    urlMidia: $("p-url").value.trim(), thumbnail: $("p-thumb").value.trim(),
+    tags: $("p-tags").value.split(",").map((t) => t.trim()).filter(Boolean)
+  };
+  const i = dados.produtos.findIndex((x) => x.id === p.id);
+  if (i >= 0) dados.produtos[i] = p; else dados.produtos.unshift(p);
+  if (await salvar(i >= 0 ? "Produto atualizado!" : "Produto adicionado!")) { limparForm(); listar(); }
+};
+
+function listar() {
+  $("total").textContent = dados.produtos.length;
+  $("lista").innerHTML = dados.produtos.length ? dados.produtos.map((p) => `<div class="prod">
+    <img src="${esc(p.thumbnail || (p.tipoMidia === "imagem" ? p.urlMidia : "") || "data:image/gif;base64,R0lGODlhAQABAAAAACw=")}" alt="">
+    <div><b>${esc(p.nome)}</b><span class="${p.categoria === "recomendo" ? "ok" : "no"}">${p.categoria === "recomendo" ? "RECOMENDO" : "NÃO RECOMENDO"}</span></div>
+    <div class="acoes"><button class="peq sec" data-ed="${esc(p.id)}">Editar</button><button class="peq perigo" data-ex="${esc(p.id)}">Excluir</button></div></div>`).join("")
+    : "<small>Nenhum produto ainda. Preencha o formulário acima.</small>";
+}
+
+$("lista").onclick = async (e) => {
+  const ed = e.target.dataset.ed, ex = e.target.dataset.ex;
+  if (ed) {
+    const p = dados.produtos.find((x) => x.id === ed); if (!p) return;
+    editandoId = p.id; $("p-nome").value = p.nome; $("p-cat").value = p.categoria; $("p-plat").value = p.plataforma || "";
+    $("p-ver").value = p.veredito || ""; $("p-link").value = p.linkAfiliado || ""; $("p-tipo").value = p.tipoMidia || "imagem";
+    $("p-url").value = p.urlMidia || ""; $("p-thumb").value = p.thumbnail || ""; $("p-tags").value = (p.tags || []).join(", ");
+    $("form-titulo").textContent = "Editar produto"; $("cancelar").hidden = false; $("p-nome").scrollIntoView({ behavior: "smooth" });
+  }
+  if (ex && confirm("Excluir este produto?")) { dados.produtos = dados.produtos.filter((x) => x.id !== ex); if (await salvar("Produto excluído.")) listar(); }
+};
+
+$("baixar").onclick = () => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(dados, null, 2)], { type: "application/json" }));
+  a.download = "backup-utilike-" + new Date().toISOString().slice(0, 10) + ".json"; a.click();
+};
+$("restaurar").onclick = () => $("backup-arq").click();
+$("backup-arq").onchange = async (e) => {
+  try {
+    const j = JSON.parse(await e.target.files[0].text());
+    if (!j.config || !Array.isArray(j.produtos)) throw new Error();
+    if (!confirm("Substituir tudo pelo conteúdo do backup?")) return;
+    dados = j; if (await salvar("Backup restaurado!")) abrirPainel();
+  } catch (x) { aviso("Arquivo de backup inválido.", true); }
+  e.target.value = "";
+};
+
+$("entrar").onclick = entrar;
+$("senha").addEventListener("keydown", (e) => { if (e.key === "Enter") entrar(); });
+$("sair").onclick = sair;
+if (token) abrirPainel().catch(sair);
+</script>
+</body>
+</html>
